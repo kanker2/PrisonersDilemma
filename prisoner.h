@@ -49,19 +49,42 @@ public:
         delete[] madeDecisions;
     };
 
+    /*
+        randomizes the decisions and initialAssumptions
+    */
     void initialize();
     /*
-        Initializes the decisions with which the prisoner is going to decide his next movement
+        initializes the decisions with which the prisoner is going to decide his first movement
     */
     void startGame();
+    /*
+        based on the initialAssumptions and the decisions the currDecision will be taken
+    */
     void play();
-    bool getDecision();
+    bool getDecision() const;
+    /*
+        based on the currDecision and the opponents decision the player modifies his current punctuation
+        and also edits properly his memories about the last MEMORY games played
+    */
     void seeOpponent(bool oppsDecision);
+    /*
+        does the same as startGame, currently this doesnt have any effect
+    */
     void endGame();
 
     int getPunctuation(){return punctuation;};
 
+    /*
+        the procedure is the following, this is applied into decisions and initialAssumptions data:
+        we take a random position in the array from which we will swap the values in p1/p2 arrays
+
+        this intends to mix the information between p1 and p2 with the intention of discovering better strategies
+    */
     static void recombinate(Prisoner& p1, Prisoner& p2);
+
+    /*
+        goes throw decisiones and initialAssumptions bits and changes them with a probability of mutationRate
+    */
     static void mutate(Prisoner& p, float mutationRate);
 
     static int getMemory(){return MEMORY;};
@@ -70,6 +93,6 @@ public:
         NUM_POSSIBLE_DECISIONS = pow(POSSIBLE_SITUATIONS_PLAYING, MEMORY);
     };
 private:
-    int obtainedPunctuation(bool oppsDecision);
+    int obtainedPunctuation(bool oppsDecision) const;
 };
 #endif

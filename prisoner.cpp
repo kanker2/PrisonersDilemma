@@ -20,7 +20,7 @@ void Prisoner::play(){
     currDecision = decisions[situation];
 }
 
-bool Prisoner::getDecision(){
+bool Prisoner::getDecision() const{
     return currDecision;
 }
 
@@ -64,6 +64,6 @@ void Prisoner::mutate(Prisoner& p, float mutationRate){
             p.initialAssumption[i] = !p.initialAssumption[i];
 }
 
-int Prisoner::obtainedPunctuation(bool oppsDecision){
+int Prisoner::obtainedPunctuation(bool oppsDecision) const{
     return points[currDecision][oppsDecision];
 }
