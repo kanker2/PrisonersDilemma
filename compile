@@ -1,0 +1,2 @@
+#!/bin/sh
+g++ -w -o m main.cpp prisoner.cpp

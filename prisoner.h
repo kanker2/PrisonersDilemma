@@ -1,8 +1,7 @@
 #ifndef PRISONER_H
 #define PRISONERH
 #include <cmath>
-#include <iostream>
-using namespace std;
+
 class Prisoner{
 private:
     const static int POSSIBLE_SITUATIONS_PLAYING = 4;
@@ -22,17 +21,6 @@ private:
     int punctuation = 0;
 
 public:
-
-    void display(){
-        cout << "Decisions" << endl;
-        for(int i = 0; i < NUM_POSSIBLE_DECISIONS; i++)
-            cout << decisions[i] << " ";
-        cout << endl;
-        cout << "Initial assumptions" << endl;
-        for(int i = 0; i < MEMORY * 2; i++)
-            cout << initialAssumption[i] << " ";
-        cout << endl;
-    }
 
     const static int DEFAULT_MEMORY = 3;
     inline static int MEMORY = DEFAULT_MEMORY;
