@@ -6,6 +6,20 @@ void Poblation::init(){
         p.initialize();
 }
 
+void Poblation::simulate(){
+    unordered_map<int, int> matches = makeMatches();
+
+    for(auto const& p : matches){
+        Prisoner& p1 = prisoners[p.first],
+                & p2 = prisoners[p.second];
+
+        auto const& punctuation = playAMatch(p1, p2);
+        p1.setPunctuation(punctuation.first);
+        p2.setPunctuation(punctuation.second);
+    }
+
+}
+
 int getNextFreeInt(int maxInt, unordered_set<int> const& alreadyMatched){
     int nextFree = rand() % maxInt;
     while(alreadyMatched.count(maxInt))
@@ -32,7 +46,7 @@ pair<int, int> Poblation::playAMatch(Prisoner& p1, Prisoner& p2){
 
     int gamesPlayed = 0;
     pair<int, int> punctuations = {0, 0};
-    
+
     while(gamesPlayed++ < nPlaysPerGame){
         p1.play();
         p2.play();
@@ -49,18 +63,4 @@ pair<int, int> Poblation::playAMatch(Prisoner& p1, Prisoner& p2){
     p2.endGame();
 
     return punctuations;
-}
-
-void Poblation::simulate(){
-    unordered_map<int, int> matches = makeMatches();
-
-    for(auto const& p : matches){
-        Prisoner& p1 = prisoners[p.first],
-                & p2 = prisoners[p.second];
-
-        auto const& punctuation = playAMatch(p1, p2);
-        p1.setPunctuation(punctuation.first);
-        p2.setPunctuation(punctuation.second);
-    }
-
 }
