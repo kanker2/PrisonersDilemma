@@ -9,17 +9,21 @@ class Poblation{
 private:
     int size, mutRate, recombRate, nPlaysPerGame;
     vector<Prisoner> prisoners;
-
+    int punctuation;
 public:
     Poblation(int size, int mutationRate, int recombinationRate, int numPlays) : 
-    size(size), mutRate(mutationRate), recombRate(recombinationRate), nPlaysPerGame(numPlays){
+    size(size), mutRate(mutationRate), recombRate(recombinationRate), nPlaysPerGame(numPlays), punctuation(0){
         prisoners.resize(size);
     };
 
+    //Initilizates all the prisoners
     void init();
+    //Makes a simulation of the current poblation making them play against each other and stablishes the punctuation of each individual
     void simulate();
+    //based on the current poblation generates the next poblation
     Poblation getNextGen() const;
     int getPunctuation() const;
+    //Returns the best prisoner of the poblation
     Prisoner const& bestPrisoner() const;
 
 private:
