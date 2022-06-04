@@ -5,8 +5,6 @@
 class Prisoner{
 private:
     const static int POSSIBLE_SITUATIONS_PLAYING = 4;
-    inline const static bool points[2][2] = {{2, 3}, 
-                                             {0, 5}};
     /*
         odd positions represents the decisions made by the opponent
         even positions represents own decisions
@@ -61,7 +59,7 @@ public:
     void endGame();
 
     int getPunctuation(){return punctuation;};
-
+    void setPunctuation(int punct) {punctuation = punct;};
     /*
         the procedure is the following, this is applied into decisions and initialAssumptions data:
         we take a random position in the array from which we will swap the values in p1/p2 arrays
@@ -80,7 +78,5 @@ public:
         MEMORY = mem;
         NUM_POSSIBLE_DECISIONS = pow(POSSIBLE_SITUATIONS_PLAYING, MEMORY);
     };
-private:
-    int obtainedPunctuation(bool oppsDecision) const;
 };
 #endif

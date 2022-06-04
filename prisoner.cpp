@@ -31,7 +31,6 @@ void Prisoner::seeOpponent(bool oppsDecision){
     }
     madeDecisions[0] = currDecision;
     madeDecisions[1] = oppsDecision;
-    punctuation += obtainedPunctuation(oppsDecision);
 }
 
 void Prisoner::endGame(){
@@ -62,8 +61,4 @@ void Prisoner::mutate(Prisoner& p, float mutationRate){
     for(int i = 0; i < MEMORY * 2; i++)
         if((float) rand() / RAND_MAX < mutationRate)
             p.initialAssumption[i] = !p.initialAssumption[i];
-}
-
-int Prisoner::obtainedPunctuation(bool oppsDecision) const{
-    return points[currDecision][oppsDecision];
 }
