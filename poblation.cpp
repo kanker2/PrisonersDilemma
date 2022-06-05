@@ -11,7 +11,7 @@ void Poblation::init(){
 }
 
 void Poblation::simulate(){
-    unordered_map<int, int> matches = makeMatches();
+    unordered_map<int, int> matches = makeMatches(prisoners.size());
 
     for(auto const& p : matches){
         Prisoner& p1 = prisoners[p.first],
@@ -51,13 +51,13 @@ int getNextFreeInt(int maxInt, unordered_set<int> & alreadyMatched){
     return nextFree;
 }
 
-unordered_map<int, int> Poblation::makeMatches() const{
+unordered_map<int, int> Poblation::makeMatches(int maxIndex) const{
     unordered_map<int, int> matches;
     unordered_set<int> alreadyMatched;
 
-    while(alreadyMatched.size() + 1 < prisoners.size()){
-        int first = getNextFreeInt(prisoners.size(), alreadyMatched),
-            second = getNextFreeInt(prisoners.size(), alreadyMatched);
+    while(alreadyMatched.size() + 1 < maxIndex){
+        int first = getNextFreeInt(maxIndex, alreadyMatched),
+            second = getNextFreeInt(maxIndex, alreadyMatched);
         matches.insert({first, second});
     }
 

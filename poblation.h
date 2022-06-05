@@ -36,8 +36,9 @@ public:
     Prisoner const& bestPrisoner() const;
 
 private:
+    //Receives the indexes of the prisoners with which the pairs should be made
     //Gives back the pair of indexes of Prisoners which will be faced
-    unordered_map<int, int> makeMatches() const;
+    unordered_map<int, int> makeMatches(int maxIndex) const;
     //Makes them play a match and gives back the punctuation obtained by each
     pair<int, int> playAMatch(Prisoner& p1, Prisoner& p2);
     pair<int, int> getPoints(pair<bool, bool> const& decisions){
