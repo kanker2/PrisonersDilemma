@@ -1,9 +1,12 @@
 #include "poblation.h"
 #include <unordered_map>
 #include <unordered_set>
+
 void Poblation::init(){
     for(auto& p : prisoners)
         p.initialize();
+    if(debugMode)
+        display();
 }
 
 void Poblation::simulate(){
@@ -12,18 +15,21 @@ void Poblation::simulate(){
     for(auto const& p : matches){
         Prisoner& p1 = prisoners[p.first],
                 & p2 = prisoners[p.second];
-
-        auto const& punctuation = playAMatch(p1, p2);
-        p1.setPunctuation(punctuation.first);
-        p2.setPunctuation(punctuation.second);
+        auto const& prisonersPunctuation = playAMatch(p1, p2);
+        punctuation += prisonersPunctuation.first + prisonersPunctuation.second;
+        p1.setPunctuation(prisonersPunctuation.first);
+        p2.setPunctuation(prisonersPunctuation.second);
     }
 
+    if(debugMode)
+        display();
 }
 
-int getNextFreeInt(int maxInt, unordered_set<int> const& alreadyMatched){
+int getNextFreeInt(int maxInt, unordered_set<int> & alreadyMatched){
     int nextFree = rand() % maxInt;
-    while(alreadyMatched.count(maxInt))
+    while(alreadyMatched.count(nextFree))
         nextFree = rand() % maxInt;
+    alreadyMatched.insert(nextFree);
     return nextFree;
 }
 

@@ -1,10 +1,11 @@
-#ifndef PRISONER_H
-#define PRISONERH
+#pragma once
 #include <cmath>
+#include <iostream>
+
+using namespace std;
 
 class Prisoner{
 private:
-    const static int POSSIBLE_SITUATIONS_PLAYING = 4;
     /*
         odd positions represents the decisions made by the opponent
         even positions represents own decisions
@@ -19,10 +20,6 @@ private:
     int punctuation = 0;
 
 public:
-
-    const static int DEFAULT_MEMORY = 3;
-    inline static int MEMORY = DEFAULT_MEMORY;
-    inline static int NUM_POSSIBLE_DECISIONS = pow(POSSIBLE_SITUATIONS_PLAYING, MEMORY);
 
     Prisoner(){
         decisions = new bool[NUM_POSSIBLE_DECISIONS];
@@ -58,7 +55,7 @@ public:
     */
     void endGame();
 
-    int getPunctuation(){return punctuation;};
+    int getPunctuation() const{return punctuation;};
     void setPunctuation(int punct) {punctuation = punct;};
     /*
         the procedure is the following, this is applied into decisions and initialAssumptions data:
@@ -78,5 +75,20 @@ public:
         MEMORY = mem;
         NUM_POSSIBLE_DECISIONS = pow(POSSIBLE_SITUATIONS_PLAYING, MEMORY);
     };
+
+    void display(ostream& out) const{
+        cout << "Punctuation: " << punctuation << endl;
+        for(int i = 0; i < NUM_POSSIBLE_DECISIONS; i++)
+            cout << decisions[i] << " ";
+        cout << endl;
+        for(int i = 0; i < MEMORY * 2; i++)
+            cout << initialAssumption[i] << " ";
+        cout << endl;
+    };
+private:
+    const static int POSSIBLE_SITUATIONS_PLAYING = 4;
+    const static int DEFAULT_MEMORY = 3;
+    inline static int MEMORY = DEFAULT_MEMORY;
+    inline static int NUM_POSSIBLE_DECISIONS = pow(POSSIBLE_SITUATIONS_PLAYING, MEMORY);
 };
-#endif
+ostream& operator<<(ostream& out, Prisoner const& p);

@@ -62,3 +62,8 @@ void Prisoner::mutate(Prisoner& p, float mutationRate){
         if((float) rand() / RAND_MAX < mutationRate)
             p.initialAssumption[i] = !p.initialAssumption[i];
 }
+
+ostream& operator<<(ostream& out, Prisoner const& p){
+    p.display(out);
+    return out;
+}
