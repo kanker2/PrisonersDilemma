@@ -17,7 +17,7 @@ private:
     bool currDecision;
     bool* madeDecisions;
 
-    int punctuation = 0;
+    int score = 0;
 
 public:
 
@@ -55,8 +55,8 @@ public:
     */
     void endGame();
 
-    int getPunctuation() const{return punctuation;};
-    void setPunctuation(int punct) {punctuation = punct;};
+    int getScore() const{return score;};
+    void setScore(int punct) {score = punct;};
     /*
         the procedure is the following, this is applied into decisions and initialAssumptions data:
         we take a random position in the array from which we will swap the values in p1/p2 arrays
@@ -77,7 +77,7 @@ public:
     };
 
     void display(ostream& out) const{
-        cout << "Punctuation: " << punctuation << endl;
+        cout << "Score: " << score << endl;
         for(int i = 0; i < NUM_POSSIBLE_DECISIONS; i++)
             cout << decisions[i] << " ";
         cout << endl;

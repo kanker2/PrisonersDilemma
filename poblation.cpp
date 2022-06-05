@@ -1,4 +1,5 @@
 #include "poblation.h"
+#include <vector>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -16,13 +17,30 @@ void Poblation::simulate(){
         Prisoner& p1 = prisoners[p.first],
                 & p2 = prisoners[p.second];
         auto const& prisonersPunctuation = playAMatch(p1, p2);
-        punctuation += prisonersPunctuation.first + prisonersPunctuation.second;
-        p1.setPunctuation(prisonersPunctuation.first);
-        p2.setPunctuation(prisonersPunctuation.second);
+        pobScore += prisonersPunctuation.first + prisonersPunctuation.second;
+        p1.setScore(prisonersPunctuation.first);
+        p2.setScore(prisonersPunctuation.second);
     }
 
     if(debugMode)
         display();
+}
+
+
+
+Poblation Poblation::getNextGen() const{
+    Poblation pob(pobSize, mutRate, recombRate, nPlaysPerGame);
+
+    vector<double> fits, sums;
+    double sum = 0;
+    //TODO pasar este proceso de generar la rueda de la fortuna a una funcion a parte
+    for(int i = 0; i < pobSize; i++){
+        fits[i] = fitnessFunction(prisoners[i]);
+        sum += fits[i];
+        sums[i] = sum;
+    }
+
+    return pob;
 }
 
 int getNextFreeInt(int maxInt, unordered_set<int> & alreadyMatched){

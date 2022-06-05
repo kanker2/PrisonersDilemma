@@ -12,17 +12,17 @@ private:
     const static int DEF_SIZE = 20, DEF_NUM_PLAYS = 10;
     constexpr static double DEF_MUT_RATE = 0.05, DEF_RECOMB_RATE = 0.25;
 
-    int size, nPlaysPerGame;
+    int pobSize, nPlaysPerGame;
     double  mutRate, recombRate;
     vector<Prisoner> prisoners;
-    int punctuation;
+    int pobScore;
 
     inline static bool debugMode = true;
 public:
     Poblation() : Poblation(DEF_SIZE, DEF_MUT_RATE, DEF_RECOMB_RATE, DEF_NUM_PLAYS){};
 
     Poblation(int size, double mutationRate, double recombinationRate, int numPlays) : 
-    size(size), mutRate(mutationRate), recombRate(recombinationRate), nPlaysPerGame(numPlays), punctuation(0){
+    pobSize(size), mutRate(mutationRate), recombRate(recombinationRate), nPlaysPerGame(numPlays), pobScore(0){
         prisoners.resize(size);
     };
     //Initilizates all the prisoners
@@ -31,7 +31,7 @@ public:
     void simulate();
     //based on the current poblation generates the next poblation
     Poblation getNextGen() const;
-    int getPunctuation() const;
+    int getScore() const;
     //Returns the best prisoner of the poblation
     Prisoner const& bestPrisoner() const;
 
@@ -46,19 +46,22 @@ private:
         else if(!decisions.first && decisions.second)   return {3, 0};
         else                                            return {2, 2};
     };
-    void display(){
+    void display() const{
         displayParametersInfo();
         displayIndividualsInfo();
     };
-    void displayParametersInfo(){
+    void displayParametersInfo() const{
         printf("Poblation size: %d\nMutation rate: %f\nRecombination rate: %f\nNumber of games per match: %d\nCurrent score of the poblation: %d\n", 
-                size, mutRate, recombRate, nPlaysPerGame, punctuation);
+                pobSize, mutRate, recombRate, nPlaysPerGame, pobScore);
     };
-    void displayIndividualsInfo(){
+    void displayIndividualsInfo() const{
         cout << "Individuals memory: " << Prisoner::getMemory() << endl;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < pobSize; i++)
             cout << "Ind " << i << endl << prisoners[i] << endl;
     };  
+    double fitnessFunction(Prisoner const& p) const{
+        return (double) p.getScore() / pobScore;
+    }
 };
 
 #endif
