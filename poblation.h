@@ -17,7 +17,7 @@ private:
     vector<Prisoner> prisoners;
     int pobScore;
 
-    inline static bool debugMode = true;
+    inline static bool debugMode = false;
 public:
     Poblation() : Poblation(DEF_SIZE, DEF_MUT_RATE, DEF_RECOMB_RATE, DEF_NUM_PLAYS){};
 
@@ -31,10 +31,14 @@ public:
     void simulate();
     //based on the current poblation generates the next poblation
     Poblation getNextGen() const;
-    int getScore() const;
+    int getScore() const {return pobScore;};
     //Returns the best prisoner of the poblation
     Prisoner const& bestPrisoner() const;
 
+    void display() const{
+        displayParametersInfo();
+        displayIndividualsInfo();
+    };
 private:
     //Receives the indexes of the prisoners with which the pairs should be made
     //Gives back the pair of indexes of Prisoners which will be faced
@@ -52,18 +56,15 @@ private:
     vector<double> fortuneWheel() const;
     Prisoner const& randPrisoner(vector<double> const& chancesWheel) const;
 
-    void display() const{
-        displayParametersInfo();
-        displayIndividualsInfo();
-    };
     void displayParametersInfo() const{
-        printf("Poblation size: %d\nMutation rate: %f\nRecombination rate: %f\nNumber of games per match: %d\nCurrent score of the poblation: %d\n", 
-                pobSize, mutRate, recombRate, nPlaysPerGame, pobScore);
+        cout << "Score: " << pobScore << endl;
+        /* printf("Poblation size: %d\nMutation rate: %f\nRecombination rate: %f\nNumber of games per match: %d\nCurrent score of the poblation: %d\n", 
+                pobSize, mutRate, recombRate, nPlaysPerGame, pobScore); */
     };
     void displayIndividualsInfo() const{
-        cout << "Individuals memory: " << Prisoner::getMemory() << endl;
+        /* cout << "Individuals memory: " << Prisoner::getMemory() << endl;
         for(int i = 0; i < pobSize; i++)
-            cout << "Ind " << i << endl << prisoners[i] << endl;
+            cout << "Ind " << i << endl << prisoners[i] << endl; */
     };  
     double fitnessFunction(Prisoner const& p) const{
         return (double) p.getScore() / pobScore;

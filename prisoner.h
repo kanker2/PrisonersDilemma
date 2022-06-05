@@ -17,11 +17,18 @@ private:
     bool currDecision;
     bool* madeDecisions;
 
-    int score = 0;
+    int score;
 
 public:
 
-    Prisoner(){
+    Prisoner(Prisoner const& p) : Prisoner(){
+        for(int i = 0; i < NUM_POSSIBLE_DECISIONS; i++)
+            decisions[i] = p.decisions[i];
+        for(int i = 0; i < MEMORY * 2; i++)
+            initialAssumption[i] = p.initialAssumption[i];
+    }
+
+    Prisoner() : score(0){
         decisions = new bool[NUM_POSSIBLE_DECISIONS];
         initialAssumption = new bool[MEMORY * 2];
         madeDecisions = new bool[MEMORY * 2];
