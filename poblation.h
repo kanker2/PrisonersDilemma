@@ -47,6 +47,11 @@ private:
         else if(!decisions.first && decisions.second)   return {3, 0};
         else                                            return {2, 2};
     };
+
+    //Generates the vector with which we have designated the chance of pass to the next generation for each individual
+    vector<double> fortuneWheel() const;
+    Prisoner const& randPrisoner(vector<double> const& chancesWheel) const;
+
     void display() const{
         displayParametersInfo();
         displayIndividualsInfo();

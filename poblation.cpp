@@ -26,19 +26,50 @@ void Poblation::simulate(){
         display();
 }
 
+vector<double> Poblation::fortuneWheel() const{
+    vector<double> sums(pobSize);
 
+    if(pobSize > 0)
+        sums[0] = fitnessFunction(prisoners[0]);
+    
+    for(int i = 1; i < pobSize; i++)
+        sums[i] = sums[i - 1] + fitnessFunction(prisoners[i]);
+
+    return sums;
+}
+
+Prisoner const& Poblation::randPrisoner(vector<double> const& chances) const{
+    double randomNumber = (double) rand() / RAND_MAX;
+    int i = 0;
+
+    while(i < int(chances.size()) && randomNumber > chances[i])
+        i++;
+    return prisoners.at(i);
+}
 
 Poblation Poblation::getNextGen() const{
     Poblation pob(pobSize, mutRate, recombRate, nPlaysPerGame);
 
-    vector<double> fits, sums;
-    double sum = 0;
-    //TODO pasar este proceso de generar la rueda de la fortuna a una funcion a parte
-    for(int i = 0; i < pobSize; i++){
-        fits[i] = fitnessFunction(prisoners[i]);
-        sum += fits[i];
-        sums[i] = sum;
-    }
+    vector<double> chancesWheel = fortuneWheel();
+    //We fill up the next generation
+    pob.prisoners.clear();
+    for(int i = 0; i < pobSize; i++)
+        pob.prisoners.push_back(randPrisoner(chancesWheel));
+
+    //Now we make the recombinations
+    vector<int> toRecombinate;
+    for(int i = 0; i < pobSize; i++)
+        if((double) rand() / RAND_MAX < recombRate)
+            toRecombinate.push_back(i);
+
+    unordered_map<int, int> couples = makeMatches(toRecombinate.size());
+
+    for(auto const& pair : couples)
+        Prisoner::recombinate(pob.prisoners[toRecombinate[pair.first]], pob.prisoners[toRecombinate[pair.second]]);
+
+    //Now we make the mutations
+    for(Prisoner& p : pob.prisoners)
+        Prisoner::mutate(p, mutRate);
 
     return pob;
 }
